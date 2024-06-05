@@ -2,14 +2,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <!DOCTYPE html>
-<html>
-<head>
-    <title>Spring MVC Demo</title>
-</head>
-<body>
-<h2>${message}</h2>
-</body>
-</html><!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -20,38 +12,41 @@
 </head>
 <body>
 <h1>Diabetes Tracker</h1>
-<form id="glucose-form" action="add" method="get">
+
+<h2>${message}</h2>
+
+<form id="glucose-form" action="add" method="post">
+    <input type="text" name="userId" required>
     <input type="datetime-local" name="dateTime" required>
     <input type="number" step="0.1" name="glucoseLevel" placeholder="Glucose Level" required>
     <button type="submit">Add Reading</button>
 </form>
-<table id="readings-table">
+
+<canvas id="glucoseChart"></canvas>
+
+<h2>Liste des Lectures de Glucose</h2>
+<table>
     <thead>
     <tr>
-        <th>Id</th>
-        <th>Date</th>
-        <th>Level</th>
+        <th>ID</th>
+        <th>Date et Heure</th>
+        <th>Niveau de Glucose</th>
     </tr>
     </thead>
     <tbody>
-
-    <c:forEach var="glucoseReading" items="${glycemies}">
+    <c:forEach var="reading" items="${glycemies}">
         <tr>
-            <td>${glucoseReading.dateTime}</td>
-            <td>${glucoseReading.glucoseLevel}</td>
-
-
+            <td><c:out value="${reading.id}"/></td>
+            <td><c:out value="${reading.dateTime}"/></td>
+            <td><c:out value="${reading.glucoseLevel}"/></td>
             <td>
-                <button><a href="${pageContext.request.contextPath}/delete/${glucoseReading.id}">Delete</a></button>
+                <a href="${pageContext.request.contextPath}/deletform/${reading.id}" onclick="return confirm('Êtes-vous sûr de vouloir supprimer  ?')">Supprimer</a>
             </td>
         </tr>
-
     </c:forEach>
     </tbody>
+</table>
 
-</table>
-</table>
-<canvas id="glucoseChart"></canvas>
 <script src="js/scripts.js"></script>
 </body>
 </html>

@@ -11,16 +11,18 @@ public class GlucoseReading {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @ManyToOne
-    private User userId;
+    private User user;
     private LocalDateTime dateTime;
     private Double glucoseLevel;
     public GlucoseReading() {}
 
     public GlucoseReading(User userId, LocalDateTime dateTime, Double glucoseLevel) {
-        this.userId = userId;
+        this.user = userId;
         this.dateTime = dateTime;
         this.glucoseLevel = glucoseLevel;
     }
+
+
 
     public Long getId() {
         return id;
@@ -31,11 +33,11 @@ public class GlucoseReading {
     }
 
     public User getUserId() {
-        return userId;
+        return user;
     }
 
     public void setUserId(User userId) {
-        this.userId = userId;
+        this.user = userId;
     }
 
     public LocalDateTime getDateTime() {

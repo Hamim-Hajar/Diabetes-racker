@@ -1,6 +1,8 @@
 package com.controller;
 
 import com.model.GlucoseReading;
+import com.model.User;
+import com.service.UserService;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,13 +17,17 @@ import java.util.List;
 public class GlucoseReadingController {
 
     private final GlucoseReadingService glucoseReadingService;
+    private final UserService userService;
 
-    public GlucoseReadingController(GlucoseReadingService glucoseReadingService) {
+    public GlucoseReadingController(GlucoseReadingService glucoseReadingService, UserService userService) {
         this.glucoseReadingService = glucoseReadingService;
+        this.userService = userService;
     }
 
     @GetMapping("/")
-    public String hello() {
+    public String hello(Model model) {
+        List<GlucoseReading> glycemies = glucoseReadingService.AfficherGlucoseReading();
+        model.addAttribute("glycemies", glycemies);
         return "Home";
     }
 
@@ -31,26 +37,21 @@ public class GlucoseReadingController {
         return "Home";
     }
 
-    @GetMapping("/add")
-    public String add(@RequestParam("dateTime") @Nullable String dateTime ,
-                      @RequestParam("glucoseLevel") @Nullable Double value
-    ) {
-        System.out.println(dateTime+"///////////:"+value);
-        glucoseReadingService.add(new GlucoseReading(null,LocalDateTime.now(),value));
-        return "Home";
-    }
-
-    @GetMapping("/list")
-    public String afficherListeLecturesGlycemie(Model model) {
+    @PostMapping("/add")
+    public String add(@RequestParam("dateTime") @Nullable String dateTime,
+                      @RequestParam("glucoseLevel") @Nullable Double value,
+                      @RequestParam("userId") String userId,
+                      Model model) {
+        User user = userService.findById(Long.valueOf(userId));
+//        System.out.println(dateTime + "///////////:" + value);
+        glucoseReadingService.add(new GlucoseReading(user, LocalDateTime.now(), value));
         List<GlucoseReading> glycemies = glucoseReadingService.AfficherGlucoseReading();
         model.addAttribute("glycemies", glycemies);
-        return "Show-addlist";
+        return "Home";
     }
 
     @DeleteMapping("/add/{id}")
     public void deleteReading(@PathVariable Long id) {
         glucoseReadingService.deleteReading(id);
     }
-
-
 }
