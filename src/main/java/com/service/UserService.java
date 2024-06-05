@@ -5,6 +5,7 @@ import com.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+
 @Service
 public class UserService {
     private UserRepository userRepository;
@@ -15,7 +16,4 @@ public class UserService {
         return (List<User>) userRepository.findAll();
     }
 
-    public User findByUsername(String username) {
-        return userRepository.findByUsername(username);
-    }
 }

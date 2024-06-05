@@ -1,7 +1,6 @@
 package com.controller;
 
 import com.model.User;
-import com.service.GlucoseReadingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import com.service.UserService;
@@ -11,12 +10,8 @@ import java.util.List;
 @RestController
 @RequestMapping("/users")
 public class UserController {
-    private final UserService userService;
-
-    public UserController(UserService userService) {
-        this.userService = userService;
-    }
-
+    @Autowired
+    private UserService userService;
 
     @PostMapping
     public User createUser(@RequestBody User user) {
@@ -26,10 +21,5 @@ public class UserController {
     @GetMapping
     public List<User> getAllUsers() {
         return userService.findAllUsers();
-    }
-
-    @GetMapping("/{username}")
-    public User getUserByUsername(@PathVariable String username) {
-        return userService.findByUsername(username);
     }
 }

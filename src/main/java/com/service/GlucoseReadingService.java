@@ -2,6 +2,7 @@ package com.service;
 
 import com.model.GlucoseReading;
 import com.repository.GlucoseReadingRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -9,20 +10,21 @@ import java.util.List;
 @Service
 public class GlucoseReadingService {
 
-    private final GlucoseReadingRepository glucoseReadingRepository;
+    @Autowired
+    private GlucoseReadingRepository readinggly;
 
-    public GlucoseReadingService(GlucoseReadingRepository glucoseReadingRepository) {
-        this.glucoseReadingRepository = glucoseReadingRepository;
+    public void add(GlucoseReading reading) {
+        readinggly.save(reading);
     }
 
     public GlucoseReading saveReading(GlucoseReading reading) {
-        return glucoseReadingRepository.save(reading);
-    }
-    public List<GlucoseReading> findByUserId(Long userId) {
-        return glucoseReadingRepository.findByUserId(userId);
+        return readinggly.save(reading);
     }
 
     public void deleteReading(Long id) {
-        glucoseReadingRepository.deleteById(Math.toIntExact(id));
+        readinggly.deleteById(Math.toIntExact(id));
+    }
+    public List<GlucoseReading> AfficherGlucoseReading() {
+        return (List<GlucoseReading>) readinggly.findAll();
     }
 }

@@ -20,38 +20,37 @@
 </head>
 <body>
 <h1>Diabetes Tracker</h1>
-<form id="glucose-form">
-    <input type="datetime-local" id="dateTime" required>
-    <input type="number" step="0.1" id="glucoseLevel" placeholder="Glucose Level" required>
+<form id="glucose-form" action="add" method="get">
+    <input type="datetime-local" name="dateTime" required>
+    <input type="number" step="0.1" name="glucoseLevel" placeholder="Glucose Level" required>
     <button type="submit">Add Reading</button>
 </form>
 <table id="readings-table">
-        <thead>
+    <thead>
+    <tr>
+        <th>Id</th>
+        <th>Date</th>
+        <th>Level</th>
+    </tr>
+    </thead>
+    <tbody>
+
+    <c:forEach var="glucoseReading" items="${glycemies}">
         <tr>
-            <th>Id</th>
-            <th>Date</th>
-            <th>Level</th>
+            <td>${glucoseReading.dateTime}</td>
+            <td>${glucoseReading.glucoseLevel}</td>
+
+
+            <td>
+                <button><a href="${pageContext.request.contextPath}/delete/${glucoseReading.id}">Delete</a></button>
+            </td>
         </tr>
-        </thead>
-        <tbody>
 
-        <c:forEach var="glucoseReading" items="${listGlucoseReading}">
-            <tr>
-                <td>${glucoseReading.dateTime}</td>
-                <td>${glucoseReading.glucoseLevel}</td>
+    </c:forEach>
+    </tbody>
 
-
-                <td>
-                    <button><a href="${pageContext.request.contextPath}/delete/${glucoseReading.id}">Delete</a></button>
-                </td>
-            </tr>
-
-        </c:forEach>
-        </tbody>
-
-    </table>
-    <button><a href="${pageContext.request.contextPath}/test">Add</a> </button>
-
+</table>
+</table>
 <canvas id="glucoseChart"></canvas>
 <script src="js/scripts.js"></script>
 </body>

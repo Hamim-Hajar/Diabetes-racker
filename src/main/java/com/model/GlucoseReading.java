@@ -4,27 +4,19 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "glucose")
+@Table(name = "GlucoseReading")
 public class GlucoseReading {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
     private Long id;
-
-    @Column(name = "userId")
-    private Long userId;
-
-    @Column(name = "dateTime")
+    @ManyToOne
+    private User userId;
     private LocalDateTime dateTime;
-
-    @Column(name = "glucoseLevel")
     private Double glucoseLevel;
-
-
     public GlucoseReading() {}
 
-    public GlucoseReading(Long userId, LocalDateTime dateTime, Double glucoseLevel) {
+    public GlucoseReading(User userId, LocalDateTime dateTime, Double glucoseLevel) {
         this.userId = userId;
         this.dateTime = dateTime;
         this.glucoseLevel = glucoseLevel;
@@ -38,11 +30,11 @@ public class GlucoseReading {
         this.id = id;
     }
 
-    public Long getUserId() {
+    public User getUserId() {
         return userId;
     }
 
-    public void setUserId(Long userId) {
+    public void setUserId(User userId) {
         this.userId = userId;
     }
 
