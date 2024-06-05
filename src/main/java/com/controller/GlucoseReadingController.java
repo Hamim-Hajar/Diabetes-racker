@@ -40,15 +40,17 @@ public class GlucoseReadingController {
         return "Home";
     }
 
+    @GetMapping("/list")
+    public String afficherListeLecturesGlycemie(Model model) {
+        List<GlucoseReading> glycemies = glucoseReadingService.AfficherGlucoseReading();
+        model.addAttribute("glycemies", glycemies);
+        return "Show-addlist";
+    }
 
     @DeleteMapping("/add/{id}")
     public void deleteReading(@PathVariable Long id) {
         glucoseReadingService.deleteReading(id);
     }
-    @GetMapping("/list")
-    public String afficherListeLecturesGlycemie(Model model) {
-        List<GlucoseReading> glycemies = glucoseReadingService.AfficherGlucoseReading();
-        model.addAttribute("glycemies", glycemies);
-        return "test";
-    }
+
+
 }
