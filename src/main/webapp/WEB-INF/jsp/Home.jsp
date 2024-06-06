@@ -7,7 +7,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Diabetes Tracker</title>
-    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/styles.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
@@ -15,7 +15,7 @@
 
 <h2>${message}</h2>
 
-<form id="glucose-form" action="add" method="post">
+<form id="glucose-form" action="${pageContext.request.contextPath}/home/add" method="post">
     <input type="text" name="userId" required>
     <input type="datetime-local" name="dateTime" required>
     <input type="number" step="0.1" name="glucoseLevel" placeholder="Glucose Level" required>
@@ -31,6 +31,7 @@
         <th>ID</th>
         <th>Date et Heure</th>
         <th>Niveau de Glucose</th>
+        <th>Action</th>
     </tr>
     </thead>
     <tbody>
@@ -40,13 +41,31 @@
             <td><c:out value="${reading.dateTime}"/></td>
             <td><c:out value="${reading.glucoseLevel}"/></td>
             <td>
-                <a href="${pageContext.request.contextPath}/deletform/${reading.id}" onclick="return confirm('Êtes-vous sûr de vouloir supprimer  ?')">Supprimer</a>
+                <a href="deletform/${reading.id}">Supprimer</a>
             </td>
         </tr>
     </c:forEach>
     </tbody>
 </table>
 
-<script src="js/scripts.js"></script>
+<a href="${pageContext.request.contextPath}/index">index</a>
+
+<script>
+    var contextPath = '${pageContext.request.contextPath}';
+    function deleteReading(id) {
+        if (confirm('Êtes-vous sûr de vouloir supprimer?')) {
+            fetch(`${contextPath}/home/deletform/${id}`, {
+                method: 'DELETE'
+            }).then(response => {
+                if (response.ok) {
+                    window.location.reload();
+                } else {
+                    alert("Failed to delete the reading");
+                }
+            });
+        }
+    }
+</script>
+<script src="${pageContext.request.contextPath}/js/scripts.js"></script>
 </body>
 </html>

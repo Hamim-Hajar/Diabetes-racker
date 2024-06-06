@@ -3,17 +3,18 @@ package com.controller;
 import com.model.GlucoseReading;
 import com.model.User;
 import com.service.UserService;
+import com.service.GlucoseReadingService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import com.service.GlucoseReadingService;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
 @Controller
-@RequestMapping("/")
+@RequestMapping("/home")
 public class GlucoseReadingController {
 
     private final GlucoseReadingService glucoseReadingService;
@@ -24,9 +25,9 @@ public class GlucoseReadingController {
         this.userService = userService;
     }
 
-    @GetMapping("/")
+    @GetMapping
     public String hello(Model model) {
-        List<GlucoseReading> glycemies = glucoseReadingService.AfficherGlucoseReading();
+        List<GlucoseReading> glycemies = glucoseReadingService.getAllGlucoseReadings();
         model.addAttribute("glycemies", glycemies);
         return "Home";
     }
@@ -43,15 +44,15 @@ public class GlucoseReadingController {
                       @RequestParam("userId") String userId,
                       Model model) {
         User user = userService.findById(Long.valueOf(userId));
-//        System.out.println(dateTime + "///////////:" + value);
         glucoseReadingService.add(new GlucoseReading(user, LocalDateTime.now(), value));
-        List<GlucoseReading> glycemies = glucoseReadingService.AfficherGlucoseReading();
+        List<GlucoseReading> glycemies = glucoseReadingService.getAllGlucoseReadings();
         model.addAttribute("glycemies", glycemies);
         return "Home";
     }
 
-    @DeleteMapping("/add/{id}")
-    public void deleteReading(@PathVariable Long id) {
+    @GetMapping("/deletform/{id}")
+    public String deleteReading(@PathVariable Long id) {
         glucoseReadingService.deleteReading(id);
+        return "redirect:/home";
     }
 }

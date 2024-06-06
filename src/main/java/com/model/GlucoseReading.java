@@ -24,6 +24,7 @@ public class GlucoseReading {
 
 
 
+
     public Long getId() {
         return id;
     }

@@ -1,6 +1,7 @@
 package com.model;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "user")
@@ -10,6 +11,11 @@ public class User {
     private Long id;
     private String username;
     private String email;
+    @OneToMany(cascade = CascadeType.REMOVE)
+    private List<GlucoseReading> glucoseReadings;
+    public User() {
+    }
+
 
     public Long getId() {
         return id;

@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-public interface GlucoseReadingRepository extends CrudRepository<GlucoseReading, Integer> {
+public interface GlucoseReadingRepository extends CrudRepository<GlucoseReading, Long> {
 
 
 }

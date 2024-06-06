@@ -10,21 +10,28 @@ import java.util.List;
 @Service
 public class GlucoseReadingService {
 
+    private final GlucoseReadingRepository glucoseReadingRepository;
+
     @Autowired
-    private GlucoseReadingRepository readinggly;
+    public GlucoseReadingService(GlucoseReadingRepository glucoseReadingRepository) {
+        this.glucoseReadingRepository = glucoseReadingRepository;
+    }
 
     public void add(GlucoseReading reading) {
-        readinggly.save(reading);
+        glucoseReadingRepository.save(reading);
     }
 
     public GlucoseReading saveReading(GlucoseReading reading) {
-        return readinggly.save(reading);
+        return glucoseReadingRepository.save(reading);
     }
 
     public void deleteReading(Long id) {
-        readinggly.deleteById(Math.toIntExact(id));
+        glucoseReadingRepository.deleteById(id);
     }
-    public List<GlucoseReading> AfficherGlucoseReading() {
-        return (List<GlucoseReading>) readinggly.findAll();
+
+    public List<GlucoseReading> getAllGlucoseReadings() {
+        return (List<GlucoseReading>) glucoseReadingRepository.findAll();
     }
+
+
 }
