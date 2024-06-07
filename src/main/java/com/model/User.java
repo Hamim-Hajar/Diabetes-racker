@@ -11,7 +11,7 @@ public class User {
     private Long id;
     private String username;
     private String email;
-    @OneToMany(cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<GlucoseReading> glucoseReadings;
     public User() {
     }

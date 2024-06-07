@@ -7,8 +7,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Diabetes Tracker</title>
-    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/styles.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+
 </head>
 <body>
 <h1>Diabetes Tracker</h1>
@@ -25,13 +27,13 @@
 <canvas id="glucoseChart"></canvas>
 
 <h2>Liste des Lectures de Glucose</h2>
-<table>
+<table id="glucose-table">
     <thead>
     <tr>
         <th>ID</th>
         <th>Date et Heure</th>
         <th>Niveau de Glucose</th>
-        <th>Action</th>
+
     </tr>
     </thead>
     <tbody>
@@ -47,7 +49,7 @@
     </c:forEach>
     </tbody>
 </table>
-
+<canvas id="myChart"></canvas>
 <a href="${pageContext.request.contextPath}/index">index</a>
 
 <script>
@@ -65,6 +67,50 @@
             });
         }
     }
+
+    //**********************chart***********
+
+    document.addEventListener('DOMContentLoaded', (event) => {
+        // Sélectionnez le tableau
+        const table = document.getElementById('glucose-table');
+
+        // Initialisez des tableaux pour les labels et les données
+        const labels = [];
+        const data = [];
+
+        // Parcourez les lignes du tableau
+        for (let i = 1, row; row = table.rows[i]; i++) {
+            // Récupérez les cellules de la ligne
+            const dateTime = row.cells[1].innerText;
+            const glucoseLevel = row.cells[2].innerText;
+
+            // Ajoutez les valeurs aux tableaux
+            labels.push(dateTime);
+            data.push(parseFloat(glucoseLevel));
+        }
+
+        // Configurez les données pour le graphique
+        const chartData = {
+            labels: labels,
+            datasets: [{
+                label: 'Niveaux de Glucose',
+                data: data,
+                fill: false,
+                borderColor: 'rgb(75, 192, 192)',
+                tension: 0.1
+            }]
+        };
+
+        // Créez le graphique
+        const config = {
+            type: 'line',
+            data: chartData,
+        };
+
+        // Assurez-vous d'avoir un élément canvas pour le graphique
+        const ctx = document.getElementById('myChart').getContext('2d');
+        new Chart(ctx, config);
+    });
 </script>
 <script src="${pageContext.request.contextPath}/js/scripts.js"></script>
 </body>
